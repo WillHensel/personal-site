@@ -1,0 +1,135 @@
+{% extends "templates/base.html" %}
+
+{% block page_title %}Resume{% endblock %}
+
+{% block page_styles %}
+<link rel="stylesheet" href="/css/resume/index.css" />
+{% endblock %}
+
+{% block content %}
+<main>
+    <aside>
+        <section>
+            <h2>Technologies</h2>
+            <hr />
+
+            <ul>
+                <li>C#</li>
+                <li>C++</li>
+                <li>Javascript</li>
+                <li>Python</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Education</h2>
+            <hr />
+            <div class="education">
+                <p>B.S.</p>
+                <p>Computer Science</p>
+                <p>
+                    <b>Walla Walla University</b>
+                </p>
+                <p class="education-time">2018 - 2022</p>
+                <p class="education-place">College Place, WA</p>
+
+            </div>
+
+        </section>
+    </aside>
+    <div class="experience-content">
+        <section class="work-experience">
+            <h2>Work Experience</h2>
+            <hr />
+
+            <div class="work-experience-items">
+
+                <section>
+                    <h3 class="company-name">Snoffleware Studios LLC</h3>
+                    <p class="job-title">Software Engineer</p>
+                    <div class="job-time-and-place">
+                        <!-- TODO Write some javascript to calculate how long this is -->
+                        <p>May 2023 - Present (1 yr 9 mos)</p>
+                        <p>Remote</p>
+                    </div>
+                    <div class="job-duties">
+                        <ul>
+                            <li>Develop web and desktop applications for clients using .NET.</li>
+                            <li>Assist with client communication including discussing feature requests and aligning
+                                projects
+                                with their goals.</li>
+                        </ul>
+                    </div>
+                </section>
+                <section>
+                    <h3 class="company-name">Vivio Technologies Inc.</h3>
+                    <p class="job-title">Junior Systems Administrator</p>
+                    <div class="job-time-and-place">
+                        <p>June 2022 - May 2023 (1 yr)</p>
+                        <p>Walla Walla, WA</p>
+                    </div>
+                    <div class="job-duties">
+                        <ul>
+                            <li>Assisted with development of automation tools, decreasing turnaround time for new
+                                VPS
+                                purchases.</li>
+                            <li>Completed new VPS builds for customers based on the purchased spec.</li>
+                            <li>Performed regular hardware maintenance tasks on bare metal machines which required
+                                special concern for
+                                potential down time.</li>
+                            <li>Built and maintained bare metal backup servers.</li>
+                        </ul>
+                    </div>
+                </section>
+                <section>
+                    <h3 class="company-name">Walla Walla University</h3>
+                    <p class="job-title">Student Software Developer</p>
+                    <div class="job-time-and-place">
+                        <p>Sep 2021 - June 2022 (10 mos)</p>
+                        <p>College Place, WA</p>
+                    </div>
+                    <div class="job-duties">
+                        <ul>
+                            <li>Built a new main website for the Computer Science department which allows students
+                                to change their departmental account passwords and door codes and facilitates
+                                new account creation for new students. Technologies used were Dart and Flutter.</li>
+                            <li>Laid the foundations for a new grading site for the Computer Science department
+                                which would allow grade entry by professors and TAs and grade viewing by students.
+                                Technologies used were Flutter to build the frontend application and GemStone to
+                                write the back-end HTTP server and business logic.</li>
+                        </ul>
+                    </div>
+                </section>
+                <section>
+                    <h3 class="company-name">GemTalk Systems</h3>
+                    <p class="job-title">Software Developer Intern</p>
+                    <div class="job-time-and-place">
+                        <p>Jun 2021 - Jun 2022 (1 yr 1 mo)</p>
+                        <p>Remote</p>
+                    </div>
+                    <div class="job-duties">
+                        <ul>
+                            <li>Built an application under contract for a client which facilitated increased
+                                productivity for HVAC technicians entering data in the field. The application was a
+                                single-page application built using Flutter which made use of web workers and
+                                browser
+                                local storage to allow for offline usage.</li>
+                            <li>Built a syncing mechanism which facilitated data downloading and uploading for when
+                                HVAC technicians would go in and out of network connectivity.</li>
+                            <li>Wrote an authentication module in Dart for Azure Single Sign-On which allowed
+                                technicians
+                                to use their work accounts to sign into the application.</li>
+                            <li>Wrote a thorough test suite for the application business logic and frontend
+                                functionality.</li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </section>
+        <!-- <section>
+                <h2>Projects</h2>
+                <hr />
+            </section> -->
+    </div>
+</main>
+
+{% endblock %}

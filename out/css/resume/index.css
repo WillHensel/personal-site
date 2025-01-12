@@ -1,0 +1,64 @@
+.print-only {
+    display: none;
+}
+
+@media print {
+
+    header>* {
+        display: none;
+    }
+
+    body>main {
+        display: grid;
+    }
+
+    .print-only {
+        display: block;
+    }
+}
+
+.education * {
+    line-height: 0.5rem;
+    margin-top: 0;
+}
+
+
+/* 
+
+    WORK EXPERIENCE
+
+*/
+
+.work-experience-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.job-title {
+    font-style: italic;
+    font-weight: bold;
+    font-size: larger;
+    line-height: 0.25rem;
+}
+
+.company-name {
+    font-weight: 400;
+    line-height: 0.25rem;
+}
+
+.job-time-and-place {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.job-time-and-place>* {
+    width: 50%;
+    line-height: 0.25rem;
+    margin-top: 0.25rem;
+}
+
+.job-duties>ul {
+    padding-left: 1.5rem;
+}
