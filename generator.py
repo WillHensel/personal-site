@@ -5,15 +5,16 @@ import shutil
 #
 # Recursively deletes all children of a directory and then deletes the directory
 #
-def delete_dir(dir):
+def delete_dir(dir, root):
     if (os.path.exists(dir)):
         for file in os.listdir(dir):
             full_path = os.path.join(dir, file)
             if os.path.isdir(full_path):
-                delete_dir(full_path)
+                delete_dir(full_path, False)
             else:
                 os.remove(full_path) 
-        os.rmdir(dir)
+        if not root:
+            os.rmdir(dir)
 
 
 #
@@ -47,8 +48,8 @@ for i, page in enumerate(pages):
 
 env = Environment(loader=FileSystemLoader(template_dir))
 
-delete_dir(output_dir)
-os.mkdir(output_dir)
+delete_dir(output_dir, True)
+# os.mkdir(output_dir)
 
 
 # Render and output the templates
@@ -61,7 +62,8 @@ for page in pages:
     page_output_dir = output_dir
     if len(dirs) > 0:
         page_output_dir = os.path.join(output_dir, str.join("/", dirs))
-        os.mkdir(page_output_dir)
+        if not os.path.exists(page_output_dir):
+            os.mkdir(page_output_dir)
 
     with open(os.path.join(page_output_dir, file), "+w") as f:
         f.write(content)

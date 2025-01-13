@@ -5,6 +5,14 @@ main {
     padding: 1rem;
 }
 
+.project-container {
+    text-decoration: none;
+}
+
+.project-container * {
+    color: var(--text-color);
+}
+
 .project-thumbnail {}
 
 .project-thumbnail>img {
