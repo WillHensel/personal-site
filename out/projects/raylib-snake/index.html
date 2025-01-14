@@ -59,6 +59,7 @@
     <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex=-1></canvas>
 </div>
     </div>
+    <small><em>* Touch controls are not supported</em></small>
     <h2>Raylib Snake</h2>
     <div class="text-content">
         <p>This was the first thing I did as an introductory project to Raylib, but also to get back into C++ after
@@ -72,7 +73,7 @@
 
         <p>To handle button input, I make use of callback function pointers to "bubble up"
             click events to the parent classes that need it. For instance, the "Start game" button is constructed in
-            the GameUiComponent class. The Game class holds and instance of GameUiComponent and passes a lambda
+            the GameUiComponent class. The Game class holds an instance of GameUiComponent and passes a lambda
             function to its DrawStartScreen method which in turn passes it to the button. When the button is
             clicked, the method is called and the Game class can handle it properly. </p>
 
