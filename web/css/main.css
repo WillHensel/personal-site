@@ -40,3 +40,8 @@ nav>ul {
     padding-inline: 0;
     list-style: none;
 }
+
+.icon {
+    width: 2rem;
+    height: 2rem;
+}

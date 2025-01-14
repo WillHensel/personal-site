@@ -3,6 +3,17 @@
     width: 100%;
 }
 
+.title-link-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.text-content {
+    margin-inline: 0.5rem;
+}
+
 /* .game-content {
     width: 100%;
     height: fit-content;
