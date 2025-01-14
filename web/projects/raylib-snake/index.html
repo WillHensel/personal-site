@@ -1,50 +1,41 @@
-<!DOCTYPE html>
-<html lang="en-US">
+{% extends "templates/project-page.html" %}
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+{% block page_title %}Snake Project{% endblock %}
 
-    <title>Will Hensel</title>
+{% block content %}
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Forum&family=Frank+Ruhl+Libre:wght@300..900&display=swap"
-        rel="stylesheet">
 
-    <link rel="stylesheet" href="/css/main.css" />
-    <link rel="stylesheet" href="/css/projects/item.css" />
-</head>
+<main>
+    <div class="emscripten-container">
+        {% include "templates/emscripten/content.html" %}
+    </div>
+    <div class="text-content">
+        <p>Snake was the first thing I did as an introductory project to Raylib, but also to get back into C++ after
+            a bit of a break from it. When I made it, I had just read <a href="https://gameprogrammingpatterns.com">Game
+                Programming Patterns</a> by Robert Nystrom so I also
+            took it as an opportunity to implement some of those patterns.</p>
 
-<body>
-    <header>
-        <h1>Will Hensel</h1>
-        <nav>
-            <ul>
-                <li>
-                    <a href="/">Home</a>
-                </li>
-                <li>
-                    <a href="/resume">Resume</a>
-                </li>
-                <li>
-                    <a href="/projects">Projects</a>
-                </li>
-                <li>
-                    <a href="/blog">Blog</a>
-                </li>
-            </ul>
-        </nav>
+        <p>The game loop pattern is the most obvious
+            usage of the patterns in this book. In addition, many of the classes use the update method pattern and
+            the component pattern.</p>
 
-        <!-- <div class="print-only">
-            <h1>Will Hensel</h1>
-        </div> -->
-    </header>
-    <hr />
+        <p>To handle button input, I make use of callback function pointers to "bubble up"
+            click events to the parent classes that need it. For instance, the "Start game" button is constructed in
+            the GameUiComponent class. The Game class holds and instance of GameUiComponent and passes a lambda
+            function to its DrawStartScreen method which in turn passes it to the button. When the button is
+            clicked, the method is called and the Game class can handle it properly. </p>
 
-    <main>
+        <p>The Snake is implemented as a
+            singly linked list, this makes the movement trivial to implement. We can simply traverse the linked list
+            from the head, which corresponds to the head of the snake, making each cell's position the position of
+            previous cell. It also means we don't have the overhead of a dynamically sized container like a vector,
+            and we don't need to worry about storing everything in contiguous memory like with an array (as well as
+            a vector). We just heap allocate new cells wherever they fit and save the pointer.</p>
+        </p>
+    </div>
+</main>
 
-    </main>
-</body>
+{% include "templates/emscripten/scripts.html" %}
 
-</html>
+<script async src="/js/projects/raylib-snake/snake-raylib.js"></script>
+{% endblock %}

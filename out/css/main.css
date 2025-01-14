@@ -8,7 +8,7 @@ html {
     font-style: normal;
     background-color: #ece7e5;
     color: var(--text-color);
-    max-width: 60rem;
+    max-width: 70rem;
     margin-inline: auto;
     padding-inline: 3rem;
 }
@@ -20,6 +20,10 @@ h1 {
 h2 {
     margin-bottom: 0.25rem;
 }
+
+/* p {
+    font-size: 18px;
+} */
 
 nav {
     display: flex;
@@ -35,15 +39,4 @@ nav>ul {
     gap: 1rem;
     padding-inline: 0;
     list-style: none;
-}
-
-aside ul {
-    list-style-position: inside;
-    padding-left: 0.5rem;
-}
-
-main {
-    display: grid;
-    grid-template-columns: 25% 75%;
-    column-gap: 3rem;
 }

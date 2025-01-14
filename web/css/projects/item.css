@@ -1,0 +1,21 @@
+/* Emscripten game canvas */
+#canvas {
+    width: 100%;
+}
+
+/* .game-content {
+    width: 100%;
+    height: fit-content;
+    padding: 0;
+    overflow: hidden;
+}
+
+.game-content iframe {
+    width: 100%;
+    height: fit-content;
+    overflow: hidden;
+}
+
+.game-content iframe {
+    zoom: 0.75;
+} */

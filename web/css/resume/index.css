@@ -1,3 +1,14 @@
+aside ul {
+    list-style-position: inside;
+    padding-left: 0.5rem;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 25% 75%;
+    column-gap: 3rem;
+}
+
 .print-only {
     display: none;
 }
