@@ -14,10 +14,11 @@ html {
 }
 
 h1 {
-    text-align: center;
+    /* margin-bottom: 0.5rem; */
 }
 
 h2 {
+    margin-top: 1.25rem;
     margin-bottom: 0.25rem;
 }
 
@@ -25,11 +26,44 @@ h2 {
     font-size: 18px;
 } */
 
+header {
+    margin-bottom: 2rem;
+}
+
+header>hr {
+    margin-block: 0;
+}
+
+.title-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: end;
+    margin-bottom: 1rem;
+}
+
+.title-section h1 {
+    margin-bottom: 0;
+}
+
+.title-section .social-links {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    gap: 0.5rem;
+}
+
+.title-section .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
 nav {
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
+
 
 nav>ul {
     display: flex;
@@ -39,6 +73,7 @@ nav>ul {
     gap: 1rem;
     padding-inline: 0;
     list-style: none;
+    margin-block: 0.5rem;
 }
 
 .icon {

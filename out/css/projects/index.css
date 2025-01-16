@@ -2,10 +2,11 @@ main {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
     gap: 1rem;
-    padding: 1rem;
+    /* padding: 1rem; */
 }
 
 .project-container {
+    margin-top: 1.25rem;
     text-decoration: none;
 }
 
@@ -19,7 +20,7 @@ main {
     width: 100%;
     aspect-ratio: square;
     border: 2px solid black;
-    box-shadow: 1px 3px 25px gray;
+    /* box-shadow: 1px 3px 25px gray; */
 }
 
 .project-details {

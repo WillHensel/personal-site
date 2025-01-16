@@ -64,15 +64,20 @@ main {
     margin-block: 0.2rem;
 }
 
-.job-time-and-place {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+.job-time-and-place p {
+    margin-block: 0.25rem;
 }
 
-.job-time-and-place>* {
-    width: 50%;
-    margin-top: 0.25rem;
+@media screen and (min-width: 500px) {
+    .job-time-and-place {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .job-time-and-place>* {
+        width: 50%;
+    }
 }
 
 .job-duties>ul {
