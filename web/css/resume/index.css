@@ -11,7 +11,7 @@ main {
 @media screen and (min-width: 625px) {
     main {
         display: grid;
-        grid-template-columns: 25% 75%;
+        grid-template-columns: 1fr 3fr;
         column-gap: 3rem;
     }
 }
@@ -45,6 +45,10 @@ main {
     WORK EXPERIENCE
 
 */
+
+.experience-content {
+    width: 100%;
+}
 
 .work-experience-items {
     display: flex;

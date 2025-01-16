@@ -11,7 +11,7 @@ main {
 @media screen and (min-width: 625px) {
     main {
         display: grid;
-        grid-template-columns: 25% 75%;
+        grid-template-columns: 1fr 3fr;
         column-gap: 3rem;
     }
 }
@@ -46,6 +46,10 @@ main {
 
 */
 
+.experience-content {
+    width: 100%;
+}
+
 .work-experience-items {
     display: flex;
     flex-direction: column;
@@ -78,10 +82,6 @@ main {
     .job-time-and-place>* {
         width: 50%;
     }
-}
-
-.job-time-and-place>* {
-    margin-top: 0.25rem;
 }
 
 .job-duties>ul {
