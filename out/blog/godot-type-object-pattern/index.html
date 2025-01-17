@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <title>Will Hensel - </title>
+    <link rel="icon" href="/images/keyboard.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Forum&family=Frank+Ruhl+Libre:wght@300..900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/main.css" />
+    
+<link rel="stylesheet" href="/css/blog/post.css" />
+<link rel="stylesheet" href="/css/highlight-js/default.min.css" />
+<script src="/js/highlight-js/highlight.min.js"></script>
+<script src="/js/highlight-js/gdscript.min.js"></script>
+<script>hljs.highlightAll();</script>
+
+</head>
+
+<body>
+    <header>
+        <div class="title-section">
+            <h1>Will Hensel</h1>
+            <div class="social-links">
+                <a href="https://github.com/WillHensel" target="_blank">
+                    <img class="icon" src="/images/github.svg" />
+                </a>
+                <a href="https://www.linkedin.com/in/wrhensel" target="_blank">
+                    <img class="icon" src="/images/linkedin.svg" />
+                </a>
+            </div>
+        </div>
+        <hr />
+        <nav>
+            <ul>
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                <li>
+                    <a href="/resume">Resume</a>
+                </li>
+                <li>
+                    <a href="/projects">Projects</a>
+                </li>
+                <li>
+                    <a href="/blog">Blog</a>
+                </li>
+            </ul>
+        </nav>
+        <hr />
+
+        <!-- <div class="print-only">
+            <h1>Will Hensel</h1>
+        </div> -->
+    </header>
+
+     
+<h1>The Type Object Pattern in Godot</h1>
+<p>This is all based on a chapter from <a href="https://gameprogrammingpatterns.com/type-object.html">Game Programming Patterns</a> on a pattern called Type Object. I'm also using the same example Nystrom uses for his explanation of the pattern. Read his article about the pattern and  then come back to learn how I would implement it in Godot.</p>
+<p>The idea is that instead of having a base class which contains some properties that are common to inherited classes, you move those properties into a different class which you then use to compose the classes that were previously obtaining the properties via inheritance.</p>
+<p>The example they give is that you have a base Monster class and your game has a bunch of different breeds of monster. Each monster has a health value and an attack string. With the inheritance route, you can create a constructor which accepts those two properties, inherit from monster for a new breed, then the breed's constructor will call the base constructor with literals which define the properties. All properties are defined in code and since they are defined as literals, you can't serialize or deserialize the objects with different properties from like a plaintext or other structured data file.</p>
+<p>Instead of going that route, you can have a Monster class which accepts a Breed in its constructor. Then when you create a monster, you pass a Breed object into the constructor and now the Monster is composed with a Breed. You can build those breed objects by any means, deserialize it from JSON or some custom format which makes it easier for someone not code-savvy to fiddle with the numbers.</p>
+<p>Taking it further, you can construct a Monster using the Breed class's constructor and then passing in self as the breed to the Monster constructor. This is making use of the Factory Method Pattern. Now we can just construct a Breed and have a Monster as a result.</p>
+<p>While a lot of the patterns in this book are geared towards a lower level of development than what we normally do in Godot, we can still apply this fairly effectively.</p>
+<h2>The inheritance way</h2>
+<p>First, the anti-example where we do everything through inheritance.</p>
+<p>Define a base class called monster which has a <code>health</code> and <code>attack_msg</code>, and a constructor to initialize them. We also define a <code>get_attack()</code> method which does nothing and a override to <code>_ready()</code> which prints the attack.</p>
+<pre><code class="language-gdscript"># monster.gd
+
+class_name Monster extends RigidBody2D
+
+var health: int = 0
+var attack_msg: String = &quot;&quot;
+
+func _init(_health: int, _attack_msg: String) -&gt; void:
+    self.health = _health
+    self.attack_msg = _attack_msg
+
+func _ready() -&gt; void:
+    print(get_attack())
+
+
+func get_attack():
+    pass
+
+</code></pre>
+<p>Next define a couple subclasses for a troll and a dragon</p>
+<pre><code class="language-gdscript"># troll.gd
+
+extends Monster
+
+func _init() -&gt; void:
+    super(20, &quot;Die!&quot;)
+
+func get_attack() -&gt; String:
+    return attack_msg
+
+</code></pre>
+<pre><code class="language-gdscript"># dragon.gd
+
+extends Monster
+
+func _init() -&gt; void:
+    super(500, &quot;Taste my fury!&quot;)
+
+func get_attack() -&gt; String:
+    return attack_msg
+</code></pre>
+<p>All the subclasses do is call the base class's constructor to initialize the <code>health</code> and <code>attack_msg</code> and redefine override the <code>get_attack()</code> method.</p>
+<p>The problem is that now we have to define a new script for every monster breed, extend the base class, and then finally implement all the custom stuff for the breed. Additionally, none of the properties have been exposed to the editor. We certainly could annotate the properties in the Monster class with @export, but this does nothing for our breeds. It will just show the default in the inspector and won't change the value if the default is updated, which will confuse everyone working on the project.</p>
+<h2>The type object way</h2>
+<p>Instead, we want to attach the Monster script to all of our monster breeds. The Breed can then be defined using composition in a property on the Monster. Since Breed is now defining properties in an separate instance rather than through code, we can serialize the breed. This sounds a lot like Godot Resources.</p>
+<p>First change the Monster class</p>
+<pre><code class="language-gdscript"># monster.gd
+class_name Monster extends RigidBody2D
+
+@export var breed: BreedResource
+
+func _init(p_breed = null) -&gt; void:
+    breed = p_breed
+
+func _ready() -&gt; void:
+    attack()
+
+func attack() -&gt; void:
+    print(breed.get_attack())
+
+</code></pre>
+<p>Now it accepts a BreedResource in a breed exported property and calls <code>get_attack()</code> on the breed to attack.</p>
+<p>Create a BreedResource:</p>
+<pre><code class="language-gdscript">#breed_resource.gd
+
+class_name BreedResource extends Resource
+
+@export var health: int
+@export var attack_msg: String
+
+func _init(p_health = 0, p_attack_msg = &quot;&quot;) -&gt; void:
+    health = p_health
+    attack_msg = p_attack_msg
+
+func get_attack() -&gt; String:
+    return attack_msg
+</code></pre>
+<p>Now the resource is defining the fields.</p>
+<p>When we attach the monster.gd script to a Node (in this case a RigidBody2D node), we can create a new Resource in the inspector and add the unique properties for the breed we are creating.</p>
+<p><img alt="Breed resource" src="/images/blog/godot-type-object-pattern/breed-resource.png" /></p>
+<p>Godot even handles the serialization and deserialization automatically with .tres files. For every breed we create, we can save a file to reuse and we can edit it as text:</p>
+<pre><code class="language-gdscript"># dragon.tres
+
+[gd_resource type=&quot;Resource&quot; script_class=&quot;BreedResource&quot; load_steps=2 format=3 uid=&quot;uid://c6uypsr1qwjgj&quot;]
+
+[ext_resource type=&quot;Script&quot; path=&quot;res://breed_resource.gd&quot; id=&quot;1_6qihq&quot;]
+
+[resource]
+script = ExtResource(&quot;1_6qihq&quot;)
+health = 200
+attack_msg = &quot;Taste my fury!&quot;
+</code></pre>
+<h2>Inheritance</h2>
+<p>I'm not sure how best to implement the parent breed that the book talks about. The way it works is that you can pass a parent Breed object to a breed and if the breed doesn't define a value for something like the health property, the parent will default it to a value. This is interesting in cases where you might have a minion breed that has a lot of sub-breeds, but they all have the same health.</p>
+<p>You could do it exactly how the book describes by creating a parent sub-resource property on Breed of type Breed. Then, you can create a new resource for a minion with a set health value. Then, if the health of the breed with a minion parent is 0, the minion resource health would be the default.</p>
+<p>The initial problem I notice is that, from the inspector, this relationship might not be very obvious. It probably won't be clear where the default health is coming from.</p>
+<p>I think to make this a good way of handling this scenario would be only conditionally enabling the parent health setter in the inspector if the child health is not set. This way, it's more obvious that doing any changes to the parent health when the child has its health set already won't make any difference.</p>
+<p>Anyway, you can do the basic inheritance like this:</p>
+<pre><code class="language-gdscript"># breed_resource.gd
+class_name BreedResource extends Resource
+
+@export var health: int
+@export var attack_msg: String
+@export var parent: BreedResource
+
+func _init(p_health = 0, p_attack_msg = &quot;&quot;, p_parent = null) -&gt; void:
+    health = p_health
+    attack_msg = p_attack_msg
+    parent = p_parent
+
+func get_attack() -&gt; String:
+    return attack_msg
+
+func get_health() -&gt; int:
+    if (health != 0 or parent == null):
+        return health
+
+    return parent.health
+</code></pre>
+<p>Notice the new exported property and the new <code>get_health()</code> method. Now we can add a new BreedResource as the parent in the inspector and if the health hasn't been set on the child, we default to the parent's health.</p>
+<p><img alt="Breed resource with parent" src="/images/blog/godot-type-object-pattern/breed-resource-with-parent.png" /></p>
+<p>You can see how it can be a bit confusing where the health value is coming from, but it does work.</p>
+<p>The above code does have a little bug. If the monster has its health set directly and it has a parent with a non-zero health, we should sill prioritize our local health over the parent. However, if the local health goes to zero like when the monster is killed, the parent health will suddenly go into effect, giving the monster more health. We can solve this issue by updating the local health in the parent property setter and returning the local health from the <code>get_health()</code> method</p>
+<pre><code class="language-gdscript"># breed_resource.gd
+
+class_name BreedResource extends Resource
+
+@export var health: int
+@export var attack_msg: String
+
+@export var parent: BreedResource:
+    set(value):
+        if (health == 0 &amp;&amp; value != null):
+            health = value.health
+        parent = value
+
+func _init(p_health = 0, p_attack_msg = &quot;&quot;, p_parent = null) -&gt; void:
+    health = p_health
+    attack_msg = p_attack_msg
+    parent = p_parent
+
+
+func get_attack() -&gt; String:
+    return attack_msg
+
+func get_health() -&gt; int:
+    return health
+
+</code></pre>
+<h2>Conclusion</h2>
+<p>In the end, Godot's resource system lends itself very well to the Type Object pattern. The inheritance part of it can get a little confusing from the inspector, but if we follow best practices and keep our inheritance tree shallow, simply remembering the rules should work well enough.</p>
+
+</body>
+
+
+
+
+</html>

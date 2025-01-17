@@ -1,4 +1,12 @@
 {% extends "templates/base.html" %}
 
 {% block page_styles %}
-<link rel="stylesheet" href="/css/blog/post.css" />{% endblock %}
+<link rel="stylesheet" href="/css/blog/post.css" />
+<link rel="stylesheet" href="/css/highlight-js/default.min.css" />
+<script src="/js/highlight-js/highlight.min.js"></script>
+<script src="/js/highlight-js/gdscript.min.js"></script>
+<script>hljs.highlightAll();</script>
+{% endblock %}
+
+{% block page_scripts %}
+{% endblock %}

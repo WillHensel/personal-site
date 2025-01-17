@@ -63,7 +63,7 @@ def get_blog_posts(dir):
         with open(path, "r", encoding="utf-8") as f:
             text = f.read()
 
-        html = markdown.markdown(text)
+        html = markdown.markdown(text, extensions=['extra'])
 
         result[file] = html
 
@@ -73,7 +73,6 @@ def get_blog_posts(dir):
 #
 # Takes a dictionary of blog posts where the md file name is the key and the post content is the value
 # and creates a new template file for each post. Templates are placed in web/blog/<file_name>
-# Doesn't overwrite posts.
 #
 def make_blog_post_templates(posts):
     template_str = """{{% extends 'templates/blog-post.html' %}}
@@ -89,7 +88,7 @@ def make_blog_post_templates(posts):
         file_content = template_str.format(val)
 
         if os.path.exists(file_path):
-            continue
+            os.remove(file_path)
 
         if not os.path.exists(folder_path):
             os.mkdir(folder_path)
@@ -129,9 +128,9 @@ def main():
         file = page.split("/")[-1]
         page_output_dir = output_dir
         if len(dirs) > 0:
-            page_output_dir = os.path.join(output_dir, str.join("/", dirs))
+            page_output_dir = os.path.join(output_dir, os.path.join(*dirs))
             if not os.path.exists(page_output_dir):
-                os.mkdir(page_output_dir)
+                os.makedirs(page_output_dir)
 
         with open(os.path.join(page_output_dir, file), "+w") as f:
             f.write(content)
